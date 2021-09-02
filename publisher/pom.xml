@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ua.boderto</groupId>
+        <artifactId>rabbitmq-messaging</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>publisher</artifactId>
+    <description>RabbitMQ publisher app using Spring Boot</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.revinate</groupId>
+            <artifactId>guava-rate-limiter</artifactId>
+            <version>19.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>
