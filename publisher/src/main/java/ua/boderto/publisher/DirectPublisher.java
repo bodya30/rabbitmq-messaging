@@ -11,15 +11,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
 
-@ManagedResource(objectName = "rabbitMQ:name=publisher")
+@ManagedResource(objectName = "rabbitMQ:name=directPublisher")
 @Component
-public class Publisher implements ApplicationListener<ContextRefreshedEvent> {
+public class DirectPublisher implements ApplicationListener<ContextRefreshedEvent> {
 
-    private static final Logger LOGGER = Logger.getLogger("Publisher");
+    private static final Logger LOGGER = Logger.getLogger("DirectPublisher");
     private static final int MESSAGES_PER_SECOND = 10;
     private static final String QUEUE = "example.queue";
 
     private static volatile boolean enablePublishing;
+    private static volatile boolean turnOff;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -29,7 +30,7 @@ public class Publisher implements ApplicationListener<ContextRefreshedEvent> {
         RateLimiter rateLimiter = RateLimiter.create(MESSAGES_PER_SECOND);
         long messageCounter = 1;
 
-        while (true) {
+        while (!turnOff) {
             if (enablePublishing) {
                 rateLimiter.acquire();
                 String message = String.format("Test message #%d", messageCounter++);
@@ -46,6 +47,17 @@ public class Publisher implements ApplicationListener<ContextRefreshedEvent> {
 
     @ManagedAttribute
     public static void setEnablePublishing(boolean enablePublishing) {
-        Publisher.enablePublishing = enablePublishing;
+        DirectPublisher.enablePublishing = enablePublishing;
     }
+
+    @ManagedAttribute
+    public static boolean isTurnOff() {
+        return turnOff;
+    }
+
+    @ManagedAttribute
+    public static void setTurnOff(boolean turnOff) {
+        DirectPublisher.turnOff = turnOff;
+    }
+
 }
